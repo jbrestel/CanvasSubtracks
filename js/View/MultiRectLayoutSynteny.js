@@ -28,7 +28,7 @@ function (
                   layout.geneGroupMap = {};
               }
 
-              var geneGroup = feature.data[thisB.geneGroupAttributeName];
+              var geneGroup = feature.get(thisB.geneGroupAttributeName);
 //              var geneGroup = feature.get(thisB.geneGroupAttributeName);
               var featureId = feature.id();
 

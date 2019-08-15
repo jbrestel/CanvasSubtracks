@@ -42,13 +42,12 @@ function (
         var rv;
 
         array.forEach(this.layouts, function(layout) {
-
             var keyCount = Object.keys(layout.featureFilters).length;
 
             var countMatched = 0;
             Object.keys(layout.featureFilters).forEach(function(featureFiltersKey) {
 
-                if(feature.data[featureFiltersKey] === layout.featureFilters[featureFiltersKey]) {
+                if(feature.get(featureFiltersKey) === layout.featureFilters[featureFiltersKey]) {
                     
 //                if(feature.get(featureFiltersKey) != layout.featureFilters[featureFiltersKey]) {
                     countMatched = countMatched + 1;
@@ -56,11 +55,13 @@ function (
             });
 
             // our layout is the one where all the metadata match
+
             if(countMatched === keyCount) {
                 rv = layout;
             }
 
         });
+
         return rv;
     },
 
@@ -74,10 +75,15 @@ function (
     },
 
     getTotalHeight() {
-        var totalHeight = 0;
-
         var lastIndex = this.layouts.length - 1;
-        return this.layouts[lastIndex].getTotalHeight();
+
+        var buffer = 8;
+
+        var heights = this.layouts.map(function(layout) {
+            return layout.getTotalHeight() == 0 ? layout.sTop * layout.pitchY + buffer : layout.getTotalHeight();
+        });
+
+        return Math.max(...heights);
     },
     discardRange(left, right) {
         array.forEach(this.layouts, function(layout) {
