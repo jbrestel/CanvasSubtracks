@@ -4,7 +4,7 @@ Tested with JBrowse 1.16.3
 
 Example Track Configuration:
   geneGroupAttributeName is the name of a feature attribute used to render synteny shading
-  subtracks list contains "featureFilters" which are used to assign features into subtracks and "metadata" which will be used for ui/configuration puposes
+  subtracks list contains "featureFilters" which are used to assign features into subtracks and "metadata" which will be used for configuration/subtrack selection.
 
 <pre>
 {
