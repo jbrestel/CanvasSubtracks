@@ -9,14 +9,7 @@ Example Track Configuration:
 <pre>
 {
  ....
-    "style": {
-        "color": "{syntenyColorFxn}",
-        "connectorColor": "{syntenyColorFxn}",
-        "connectorThickness": "function(f){return f.data['SynType'] === 'span' ? 3 : 1; }",
-        "height": 5,
-        "marginBottom": 0,
-	"showLabels": false,
-    },
+    "type": "CanvasSubtracks/View/Track/Synteny"
     "geneGroupAttributeName": "orthomcl_name",
     "subtracks": [
         {
@@ -48,10 +41,8 @@ Example Track Configuration:
                 "Species": "Plasmodium falciparum"
             },
             "visible": true
-        },
-
-        .....
-    ],
-    "type": "CanvasSubtracks/View/Track/Synteny"
+        }, 
+	....
+    ]
 }
 </pre>
