@@ -60,9 +60,11 @@ This plugin provides "CanvasFeatures/Store/SeqFeature/REST" which will add 2 que
 
 Most of the heavy lifting is done upstream of this plugin.  One possible approach is:
 
-#Perform all possible pairwise comparisons of genomes and determine all large regions of synteny (we use mercator and MAVID)
-#For each syntenic region, determine the coordinate pairs for each syntenic gene's start to the corresponding gene start in the reference.  
-#Create a REST endpoint which when given an arbitrary region (visibleRegionStart->visibleRegionEnd) can get the min and max coord pair for the region and scale the syntenic locations so they can be shown in reference coordinates.
+1. Perform all possible pairwise comparisons of genomes and determine all large regions of synteny (we use mercator and MAVID)
+
+2. For each syntenic region, determine the coordinate pairs for each syntenic gene's start to the corresponding gene start in the reference.  
+
+3. Create a REST endpoint which when given an arbitrary region (visibleRegionStart->visibleRegionEnd) can get the min and max coord pair for the region and scale the syntenic locations so they can be shown in reference coordinates.
 
 # Funding
 This plugin was made possible by funding provided by the NIH:National Institute of Allergy and Infectious Diseases (NIAID) to the EuPathDB Bioinformatics Resource Center (BRC).
