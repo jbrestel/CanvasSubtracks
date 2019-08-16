@@ -51,15 +51,29 @@ function (
 
             var thisB = this;
 
+            var hasNewBlock = false;
+            var hasExistingBlock = false;
+
             var i = 0;
             blockLoop:
             for (i = 0; i < this.blocks.length; i++) { 
                 var block = thisB.blocks[i];
-                if(!block || block.renderedSynteny || !block.featureCanvas) {
+                if(!block) {
+                    continue blockLoop;
+                }
+
+                if(block.renderedSynteny) {
+                    hasExistingBlock = true;
+                    continue blockLoop;
+                }
+
+                if(!block.featureCanvas) {
                     continue blockLoop;
                 }
 
                 block.renderedSynteny = true;
+
+                hasNewBlock = true;
 
                 var context = block.featureCanvas.getContext('2d');;
                 var j = 0;
@@ -94,23 +108,22 @@ function (
                                     var orthologRectangle = nextLayout.rectangles[orthologId];
                                     //                                    thisB.renderSynteny(rectangle, orthologRectangle);
 
-
                                     // TODO:  feature.get methods don't work for features gotten by REST Store
-                                    var fStartX = block.bpToX(rectangle.data.data.start);
-//                                    var fStartX = block.bpToX(rectangle.data.get("start"));
-                                    var fEndX = block.bpToX(rectangle.data.data.end);
-//                                    var fEndX = block.bpToX(rectangle.data.get("end"));
+//                                    var fStartX = block.bpToX(rectangle.data.data.start);
+                                    var fStartX = block.bpToX(rectangle.data.get("start"));
+//                                    var fEndX = block.bpToX(rectangle.data.data.end);
+                                    var fEndX = block.bpToX(rectangle.data.get("end"));
                                     var fY = (rectangle.top * pitchY) + (rectangle.h * pitchY);
 
 
-                                    var oStartX = block.bpToX(orthologRectangle.data.data.start);
-//                                    var oStartX = block.bpToX(orthologRectangle.data.get("start"));
-                                    var oEndX = block.bpToX(orthologRectangle.data.data.end);
-//                                    var oEndX = block.bpToX(orthologRectangle.data.get("end"));
+//                                    var oStartX = block.bpToX(orthologRectangle.data.data.start);
+                                    var oStartX = block.bpToX(orthologRectangle.data.get("start"));
+//                                    var oEndX = block.bpToX(orthologRectangle.data.data.end);
+                                    var oEndX = block.bpToX(orthologRectangle.data.get("end"));
                                     var oY = orthologRectangle.top * pitchY;
 
-                                    
-
+                                    context.strokeStyle = "grey";
+                                    context.lineWidth = 0.5;
                                     context.beginPath();
                                     context.moveTo(fStartX, fY);
                                     context.lineTo(fEndX, fY);
@@ -130,6 +143,14 @@ function (
                         }
                     }
                 }
+            }
+
+
+            // if we bring in a new block, we need to redraw
+            if(hasNewBlock && hasExistingBlock) {
+                thisB._clearLayout();
+                thisB.hideAll();
+                thisB.redraw();
             }
 
         }

@@ -9,8 +9,15 @@ define([
     'JBrowse/Util',
     'dojo/Deferred',
     'dijit/Tooltip',
+    'dijit/TitlePane',
+    'dijit/layout/ContentPane',
+    'dojo/data/ItemFileWriteStore',
+    'JBrowse/Store/TrackMetaData',
+    'CanvasSubtracks/View/TrackList/FacetedSubtracks',
+    'dijit/form/Button',
     'dojox/grid/EnhancedGrid',
-    'dojox/grid/enhanced/plugins/DnD'
+//    'dojox/grid/enhanced/plugins/DnD',
+    'dojox/grid/enhanced/plugins/IndirectSelection'
 ],
 function (
     declare,
@@ -23,15 +30,29 @@ function (
     Util,
     Deferred,
     Tooltip,
+    TitlePane,
+    ContentPane,
+    ItemFileWriteStore,
+    MetaDataStore,
+    FacetedSubtracks,
+    dijitButton,
     EnhancedGrid
 ) {
     return declare(CanvasFeatures, {
         constructor: function () {
             var subtracks = [];
+
+            var featureFilterNames = {};
+            var metadataNames = {};
+
             array.forEach(this.getConf('subtracks'), function(subtrack) {
                 var visible = subtrack.visible === 'true' ? true : 
                               subtrack.visible === 'false' ? false :
                               subtrack.visible;
+
+
+                featureFilterNames = dojo.mixin(featureFilterNames, Object.keys(subtrack.featureFilters));
+                metadataNames = dojo.mixin(metadataNames, Object.keys(subtrack.metadata));
 
                 if(visible) {
                     subtracks.push(subtrack);
@@ -40,7 +61,8 @@ function (
 
             this.minSubtrackHeight = 3;
             this.subtracks = subtracks;
-
+            this.featureFilterNames = Object.values(featureFilterNames);
+            this.metadataNames = Object.values(metadataNames);
         },
 
         _defaultConfig: function () {
@@ -54,23 +76,153 @@ function (
 
 
 
+
     _trackMenuOptions: function() {
         var opts = this.inherited(arguments);
         var thisB = this;
         opts.push({
-            label: 'Select and Order Subtracks',
-            title: 'Select and Order Subtracks',
+            label: 'Select Subtracks',
+            title: 'Select Subtracks',
             iconClass: 'dijitIconConfigure',
-            action: 'contentDialog',
-            content: dojo.hitch(this,'_trackSubtracksConfigure')
+            action: 'bareDialog',
+            content: this._trackSubtracksConfigure,
         });
         return opts;
     },
 
+
         _trackSubtracksConfigure: function() {
-            console.log(this.getConf('subtracks'));
-            return "THIS IS A TEST";
+            var track = this.track;
+            var subtrackList = track.getConf('subtracks');
+            
+            
+            var activeSubtrackLabels = {};
+
+            array.forEach(track.subtracks, function(s) {
+                activeSubtrackLabels[s.label] = 1;
+            });;
+            
+
+            var data = [];
+
+            var colNames = {};
+
+            for(var i=0; i < subtrackList.length; i++){
+
+                var featureFilters = subtrackList[i].featureFilters;
+                var metadata = subtrackList[i].metadata;
+
+                var label = subtrackList[i].label;
+                
+                var defaultChecked = activeSubtrackLabels[label] ? true : false;
+                
+                Object.keys(metadata).forEach(function(v){
+                    colNames[v] = 1;
+                });
+                Object.keys(featureFilters).forEach(function(v){
+                    colNames[v] = 1;
+                });
+
+                var allmetadata = dojo.mixin({ id: i+1 }, featureFilters, metadata, {defaultChecked: defaultChecked});
+
+                data.push({key: i+1, label: label, metadata: allmetadata});
+            }
+
+            var displayColumns = ["id"];
+            var renameFacets = {};
+            Object.keys(colNames).forEach(function(k) {
+                var lcK = k.toLowerCase();
+                displayColumns.push(lcK);
+
+                renameFacets[lcK] = k;
+
+            });
+
+            var trackMetaDataStore =  new MetaDataStore(
+                {trackConfigs: data,
+                 browser: track.browser,
+                });
+
+
+            var facetedSubtracks = new FacetedSubtracks(
+                {trackConfigs: data,
+                 browser: track.browser,
+                 trackMetaData: trackMetaDataStore,
+                 renameFacets: renameFacets,
+                 displayColumns: displayColumns
+                });
+
+
+
+        var actionBar = dojo.create( 'div', {
+            className: 'dijitDialogPaneActionBar'
+        });
+
+
+        var actionBar = dojo.create( 'div', {
+            className: 'dijitDialogPaneActionBar'
+        });
+
+        // note that the `this` for this content function is not the track, it's the menu-rendering context
+        var dialog = this.dialog;
+
+        new dijitButton({ iconClass: 'dijitIconDelete', onClick: dojo.hitch(dialog,'hide'), label: 'Cancel' })
+            .placeAt( actionBar );
+
+
+        new dijitButton({ iconClass: 'dijitIconSave', 
+                          onClick: dojo.hitch( track, function() {
+
+                              var selected = [];
+
+                              array.forEach(Object.keys(facetedSubtracks.tracksActive), function(active){
+                                  selected.push(facetedSubtracks.dataGrid.store.getItem(active));
+                              });
+                              
+
+                              if(selected.length < 1) {
+                                  alert("Nothing was selected");
+                                  selected = facetedSubtracks.dataGrid.store.facetIndexes.byName.defaultchecked.byValue.true.items;
+                              }
+
+
+                              var sortedSelectedSubtracks = selected.sort(function(a,b) {
+                                  facetedSubtracks.dataGrid.getItemIndex(a) - facetedSubtracks.dataGrid.getItemIndex(b);
+                              });
+
+
+                              track.subtracks = [];
+
+                              array.forEach(sortedSelectedSubtracks, function(item) {
+                                      var featureFilters = {};
+                                      var metadata = {};
+
+                                      array.forEach(track.featureFilterNames, function(ff) {
+                                          featureFilters[ff] = item[ff.toLowerCase()];
+                                      });
+
+                                      array.forEach(track.metadataNames, function(m) {
+                                          metadata[m] = item[m.toLowerCase()];
+                                      });
+
+
+                                  track.subtracks.push({featureFilters: featureFilters, label: item.label, metadata: metadata});
+                              });
+
+                              track._clearLayout();
+                              track.hideAll();
+                              track.destroySublabels();
+                              track.makeTrackSubLabels();
+                              track.redraw();
+                              dialog.hide();
+                                             }),
+                          label: 'Save' })
+                .placeAt( actionBar );
+
+
+            return [facetedSubtracks.containerElem, actionBar];
         },
+
 
 
 
@@ -86,10 +238,15 @@ function (
         },
 
 
-        makeTrackLabel: function () {
+        destroySublabels: function() {
+            array.forEach(this.sublabels, function (sublabel, i) {
+                dojo.destroy(sublabel.id);
+            });
+        },
+
+        makeTrackSubLabels: function () {
             var thisB = this;
             var c = this.config;
-            this.inherited(arguments);
 
             if (this.config.showLabels || this.config.showTooltips) {
 
@@ -119,6 +276,12 @@ function (
                     return htmlnode;
                 });
             }
+
+        },
+
+        makeTrackLabel: function () {
+            this.inherited(arguments);
+            this.makeTrackSubLabels();
         },
 
 

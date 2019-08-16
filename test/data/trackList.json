@@ -1,0 +1,374 @@
+{
+   "formatVersion" : 1,
+   "tracks" : [
+      {
+         "category" : "Reference sequence",
+         "chunkSize" : 20000,
+         "key" : "Reference sequence",
+         "label" : "DNA",
+         "seqType" : "dna",
+         "storeClass" : "JBrowse/Store/Sequence/StaticChunked",
+         "type" : "SequenceTrack",
+         "urlTemplate" : "seq/{refseq_dirpath}/{refseq}-"
+      },
+      {
+         "compress" : 0,
+         "key" : "SyntenyTest",
+         "label" : "SyntenyTest",
+         "storeClass" : "JBrowse/Store/SeqFeature/NCList",
+         "style" : {
+             "connectorThickness" : "function(f){return f.get('syntype') === 'span' ? 3 : 1; }",
+             "strandArrow" : "function(f){return f.get('syntype') === 'span' ? false : true; }",
+             "height" : "function(f){return f.get('syntype') === 'span' ? 2 : 5; }",
+             'labelScale' : 1000000000000000,
+         },
+          "type" : "CanvasSubtracks/View/Track/Synteny",
+          "glyph" : "function(f){return f.get('syntype') === 'span' ? 'JBrowse/View/FeatureGlyph/Box' : 'JBrowse/View/FeatureGlyph/Segments'; }",
+         "urlTemplate" : "tracks/SyntenyTest/{refseq}/trackData.json",
+          "geneGroupAttributeName" : "orthomcl_name",
+          "subtracks": [
+              {
+                  "featureFilters": {
+                      "syntype": "gene",
+                      "taxon": "Entamoeba histolytica HM-1:IMSS"
+                  },
+                  "visible": "true",
+                  "label": "ehisHM1IMSS gene",
+                  "metadata": {
+                      "Species": "Entamoeba histolytica",
+                      "Kingdom": "N/A",
+                      "Genus": "Entamoeba",
+                      "Phylum": "N/A",
+                      "Class": "N/A"
+                  },
+              },
+              {
+                  "featureFilters": {
+                      "syntype": "span",
+                      "taxon": "Entamoeba histolytica HM-1:IMSS"
+                  },
+                  "visible": "true",
+                  "label": "ehisHM1IMSS span",
+                  "metadata": {
+                      "Species": "Entamoeba histolytica",
+                      "Kingdom": "N/A",
+                      "Genus": "Entamoeba",
+                      "Phylum": "N/A",
+                      "Class": "N/A"
+                  },
+              },
+              {
+                  "featureFilters": {
+                      "syntype": "gene",
+                      "taxon": "Entamoeba histolytica HM-1:IMSS-A"
+                  },
+                  "visible": "false",
+                  "label": "ehisHM1IMSS-A gene",
+                  "metadata": {
+                      "Species": "Entamoeba histolytica",
+                      "Kingdom": "N/A",
+                      "Genus": "Entamoeba",
+                      "Phylum": "N/A",
+                      "Class": "N/A"
+                  }
+              },
+              {
+                  "featureFilters": {
+                      "syntype": "span",
+                      "taxon": "Entamoeba histolytica HM-1:IMSS-A"
+                  },
+                  "visible": "false",
+                  "label": "ehisHM1IMSS-A span",
+                  "metadata": {
+                      "Species": "Entamoeba histolytica",
+                      "Kingdom": "N/A",
+                      "Genus": "Entamoeba",
+                      "Phylum": "N/A",
+                      "Class": "N/A"
+                  }
+              },
+              {
+                  "featureFilters": {
+                      "syntype": "gene",
+                      "taxon": "Entamoeba histolytica HM-1:IMSS-B"
+                  },
+                  "visible": "false",
+                  "label": "ehisHM1IMSS-B gene",
+                  "metadata": {
+                      "Species": "Entamoeba histolytica",
+                      "Kingdom": "N/A",
+                      "Genus": "Entamoeba",
+                      "Phylum": "N/A",
+                      "Class": "N/A"
+                  }
+              },
+              {
+                  "featureFilters": {
+                      "syntype": "span",
+                      "taxon": "Entamoeba histolytica HM-1:IMSS-B"
+                  },
+                  "visible": "false",
+                  "label": "ehisHM1IMSS-B span",
+                  "metadata": {
+                      "Species": "Entamoeba histolytica",
+                      "Kingdom": "N/A",
+                      "Genus": "Entamoeba",
+                      "Phylum": "N/A",
+                      "Class": "N/A"
+                  }
+              },
+              {
+                  "featureFilters": {
+                      "syntype": "gene",
+                      "taxon": "Entamoeba histolytica HM-3:IMSS"
+                  },
+                  "visible": "true",
+                  "label": "ehisHM3IMSS gene",
+                  "metadata": {
+                      "Species": "Entamoeba histolytica",
+                      "Kingdom": "N/A",
+                      "Genus": "Entamoeba",
+                      "Phylum": "N/A",
+                      "Class": "N/A"
+                  },
+              },
+              {
+                  "featureFilters": {
+                      "syntype": "span",
+                      "taxon": "Entamoeba histolytica HM-3:IMSS"
+                  },
+                  "visible": "true",
+                  "label": "ehisHM3IMSS span",
+                  "metadata": {
+                      "Species": "Entamoeba histolytica",
+                      "Kingdom": "N/A",
+                      "Genus": "Entamoeba",
+                      "Phylum": "N/A",
+                      "Class": "N/A"
+                  },
+              },
+              {
+                  "featureFilters": {
+                      "syntype": "gene",
+                      "taxon": "Entamoeba histolytica KU27"
+                  },
+                  "visible": "true",
+                  "label": "ehisKU27 gene",
+                  "metadata": {
+                      "Species": "Entamoeba histolytica",
+                      "Kingdom": "N/A",
+                      "Genus": "Entamoeba",
+                      "Phylum": "N/A",
+                      "Class": "N/A"
+                  },
+              },
+              {
+                  "featureFilters": {
+                      "syntype": "span",
+                      "taxon": "Entamoeba histolytica KU27"
+                  },
+                  "visible": "true",
+                  "label": "ehisKU27 span",
+                  "metadata": {
+                      "Species": "Entamoeba histolytica",
+                      "Kingdom": "N/A",
+                      "Genus": "Entamoeba",
+                      "Phylum": "N/A",
+                      "Class": "N/A"
+                  },
+              },
+              {
+                  "featureFilters": {
+                      "syntype": "gene",
+                      "taxon": "Entamoeba dispar SAW760"
+                  },
+                  "visible": "true",
+                  "label": "edisSAW760 gene",
+                  "metadata": {
+                      "Species": "Entamoeba dispar",
+                      "Kingdom": "N/A",
+                      "Genus": "Entamoeba",
+                      "Phylum": "N/A",
+                      "Class": "N/A"
+                  },
+              },
+              {
+                  "featureFilters": {
+                      "syntype": "span",
+                      "taxon": "Entamoeba dispar SAW760"
+                  },
+                  "visible": "true",
+                  "label": "edisSAW760 span",
+                  "metadata": {
+                      "Species": "Entamoeba dispar",
+                      "Kingdom": "N/A",
+                      "Genus": "Entamoeba",
+                      "Phylum": "N/A",
+                      "Class": "N/A"
+                  },
+              },
+              {
+                  "featureFilters": {
+                      "syntype": "gene",
+                      "taxon": "Entamoeba invadens IP1"
+                  },
+                  "visible": "true",
+                  "label": "einvIP1 gene",
+                  "metadata": {
+                      "Species": "Entamoeba invadens",
+                      "Kingdom": "N/A",
+                      "Genus": "Entamoeba",
+                      "Phylum": "N/A",
+                      "Class": "N/A"
+                  },
+              },
+              {
+                  "featureFilters": {
+                      "syntype": "span",
+                      "taxon": "Entamoeba invadens IP1"
+                  },
+                  "visible": "true",
+                  "label": "einvIP1 span",
+                  "metadata": {
+                      "Species": "Entamoeba invadens",
+                      "Kingdom": "N/A",
+                      "Genus": "Entamoeba",
+                      "Phylum": "N/A",
+                      "Class": "N/A"
+                  },
+              },
+              {
+                  "featureFilters": {
+                      "syntype": "gene",
+                      "taxon": "Entamoeba moshkovskii Laredo"
+                  },
+                  "visible": "true",
+                  "label": "emosLaredo gene",
+                  "metadata": {
+                      "Species": "Entamoeba moshkovskii",
+                      "Kingdom": "N/A",
+                      "Genus": "Entamoeba",
+                      "Phylum": "N/A",
+                      "Class": "N/A"
+                  },
+              },
+              {
+                  "featureFilters": {
+                      "syntype": "span",
+                      "taxon": "Entamoeba moshkovskii Laredo"
+                  },
+                  "visible": "true",
+                  "label": "emosLaredo span",
+                  "metadata": {
+                      "Species": "Entamoeba moshkovskii",
+                      "Kingdom": "N/A",
+                      "Genus": "Entamoeba",
+                      "Phylum": "N/A",
+                      "Class": "N/A"
+                  },
+              },
+              {
+                  "featureFilters": {
+                      "syntype": "gene",
+                      "taxon": "Entamoeba nuttalli P19"
+                  },
+                  "visible": "true",
+                  "label": "enutP19 gene",
+                  "metadata": {
+                      "Species": "Entamoeba nuttalli",
+                      "Kingdom": "N/A",
+                      "Genus": "Entamoeba",
+                      "Phylum": "N/A",
+                      "Class": "N/A"
+                  },
+              },
+              {
+                  "featureFilters": {
+                      "syntype": "span",
+                      "taxon": "Entamoeba nuttalli P19"
+                  },
+                  "visible": "true",
+                  "label": "enutP19 span",
+                  "metadata": {
+                      "Species": "Entamoeba nuttalli",
+                      "Kingdom": "N/A",
+                      "Genus": "Entamoeba",
+                      "Phylum": "N/A",
+                      "Class": "N/A"
+                  },
+              },
+              {
+                  "featureFilters": {
+                      "syntype": "gene",
+                      "taxon": "Acanthamoeba castellanii str. Neff"
+                  },
+                  "visible": "false",
+                  "label": "acasNeff gene",
+                  "metadata": {
+                      "Species": "Acanthamoeba castellanii",
+                      "Kingdom": "N/A",
+                      "Genus": "Acanthamoeba",
+                      "Phylum": "N/A",
+                      "Class": "N/A"
+                  }
+              },
+              {
+                  "featureFilters": {
+                      "syntype": "span",
+                      "taxon": "Acanthamoeba castellanii str. Neff"
+                  },
+                  "visible": "false",
+                  "label": "acasNeff span",
+                  "metadata": {
+                      "Species": "Acanthamoeba castellanii",
+                      "Kingdom": "N/A",
+                      "Genus": "Acanthamoeba",
+                      "Phylum": "N/A",
+                      "Class": "N/A"
+                  }
+              },
+              {
+                  "featureFilters": {
+                      "syntype": "gene",
+                      "taxon": "Naegleria fowleri ATCC 30863"
+                  },
+                  "visible": "false",
+                  "label": "nfowATCC30863 gene",
+                  "metadata": {
+                      "Species": "Naegleria fowleri",
+                      "Kingdom": "N/A",
+                      "Genus": "Naegleria",
+                      "Phylum": "N/A",
+                      "Class": "Heterolobosea"
+                  }
+              },
+              {
+                  "featureFilters": {
+                      "syntype": "span",
+                      "taxon": "Naegleria fowleri ATCC 30863"
+                  },
+                  "visible": "false",
+                  "label": "nfowATCC30863 span",
+                  "metadata": {
+                      "Species": "Naegleria fowleri",
+                      "Kingdom": "N/A",
+                      "Genus": "Naegleria",
+                      "Phylum": "N/A",
+                      "Class": "Heterolobosea"
+                  }
+              }
+          ],
+      },
+      {
+         "compress" : 0,
+         "key" : "Transcripts",
+         "label" : "Transcripts",
+         "storeClass" : "JBrowse/Store/SeqFeature/NCList",
+         "style" : {
+            "className" : "feature"
+         },
+         "type" : "FeatureTrack",
+         "urlTemplate" : "tracks/Transcripts/{refseq}/trackData.json"
+      }
+   ]
+}
