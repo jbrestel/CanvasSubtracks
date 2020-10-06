@@ -1,3 +1,5 @@
+## Deprecated!  please use https://github.com/VEuPathDB/JBrowse
+
 # CanvasSubtracks (View)
 
 Tested with JBrowse 1.16.3
